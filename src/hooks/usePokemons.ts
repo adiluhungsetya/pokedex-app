@@ -3,13 +3,13 @@ import { apiFetch } from "../utils/api-fetch";
 import { useQuery } from 'react-query';
 import { BasePokemon, Pokemon, PokemonResponse, DefaultResponse, Base } from '../types/pokemon-types';
 
-const usePokemons = (type : string, limit: number, prevData: Pokemon[] ) => {
+const usePokemons = (type : string, limit: number ) => {
     const { data } = useQuery({
         queryKey: ['pokemons', {type, limit}],
         queryFn: async () => {
 
             if(type === "all"){
-                const { results: pokemonList } : DefaultResponse = await apiFetch(`/pokemon?offset=${limit}&limit=30`);
+                const { results: pokemonList } : DefaultResponse = await apiFetch(`/pokemon?offset=0&limit=${limit}`);
 
                 const pokemons = await Promise.all<Pokemon>(
                     pokemonList.map(async (pokemon : Base) => {
@@ -20,7 +20,7 @@ const usePokemons = (type : string, limit: number, prevData: Pokemon[] ) => {
                     })
                 );
 
-                return [...prevData, ...pokemons];
+                return pokemons;
             }
 
             const { pokemon: pokemonList } : {pokemon : BasePokemon[]} = await apiFetch(`/type/${ type }`);

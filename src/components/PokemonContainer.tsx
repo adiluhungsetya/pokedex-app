@@ -3,25 +3,19 @@ import React from 'react';
 import usePokemons from '../hooks/usePokemons';
 import Card from './Card';
 import { maxData } from '../constant/common';
-import { Pokemon } from '../types/pokemon-types';
 
 interface PokemonContainerProps {
     type: string,
     limit: number,
     toggleLoad: React.Dispatch<React.SetStateAction<boolean>>,
-    prevData: Pokemon[],
-    toggleSaveData: React.Dispatch<React.SetStateAction<Pokemon[]>>,
 }
 
-const PokemonContainer : React.FC<PokemonContainerProps> = ({ type, limit, toggleLoad, prevData, toggleSaveData }) => {
-    const pokemons = usePokemons(type, limit, prevData);
+const PokemonContainer : React.FC<PokemonContainerProps> = ({ type, limit, toggleLoad }) => {
+    const pokemons = usePokemons(type, limit);
     
     React.useEffect(() => {
         if(pokemons && pokemons.length === maxData){
             toggleLoad(false)
-        }
-        if(pokemons && pokemons.length > prevData.length){
-            toggleSaveData(pokemons)
         }
     }, [pokemons])
 

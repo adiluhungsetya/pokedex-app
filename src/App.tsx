@@ -4,14 +4,12 @@ import Loader from './components/Loader';
 import { ModalProvider } from './context/ModalProvider';
 import NavBar from './components/NavBar';
 import PokemonContainer from './components/PokemonContainer';
-import { Pokemon } from './types/pokemon-types';
 import Modal from './components/modal/Modal'
 
 function App() {
   const elementRef = React.useRef<HTMLDivElement>(null);
-  const [prevPokemon, setPrevPokemon] = React.useState<Pokemon[]>([])
   const [type, setType] = React.useState<string>("all");
-  const [limit, setLimit] = React.useState<number>(0);
+  const [limit, setLimit] = React.useState<number>(30);
   const [hasMore, setHasMore] = React.useState<boolean>(true);
 
   const handleLoadButton = () => {
@@ -35,8 +33,6 @@ function App() {
             type={type}  
             limit={limit}
             toggleLoad={setHasMore}
-            prevData={prevPokemon}
-            toggleSaveData={setPrevPokemon}
           />
           {
             hasMore && 
